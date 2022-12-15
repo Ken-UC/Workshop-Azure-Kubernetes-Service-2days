@@ -30,8 +30,8 @@ jobs:
       - name: Login Azure
         uses: Azure/login@v1
         with:
-          creds: '{"clientId":"${{ secrets.CLIENTID }}","clientSecret":"${{ secrets.CLIENTSECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTIONID }}","tenantId":"${{ secrets.TENANTID }}"}'
-
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
       - name: Get AKS Credentials
         run: |
           az aks get-credentials --resource-group ${{ env.RG_NAME }} --name ${{ env.CLUSTER_NAME }}

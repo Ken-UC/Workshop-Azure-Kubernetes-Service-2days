@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
 
 env:
-  RG_NAME: "RG-AKS-Lab-11"
-  CLUSTER_NAME: "AKS-Lab-11"
+  RG_NAME: "PKE-AKS-Lab-11"
+  CLUSTER_NAME: "PKE-AKS-Lab-11"
 
 
 jobs:
@@ -16,10 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Login Azure
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: AZ Login
+        run: |
+          az login --service-principal -u ${{ secrets.CLIENTID }} -p=${{ secrets.CLIENTSECRET }} --tenant ${{ secrets.TENANTID }}
 
       - name: Get AKS Credentials
         run: |
@@ -40,6 +39,8 @@ jobs:
           cd ./Lab_11/Manifest/ && kubectl kustomize ./base
 
       - name: Application de la configuration
-        run: echo il ne reste plus ... !
+        run: |
+          kubectl apply -k ./base
+
            
               
